@@ -12,6 +12,14 @@ class CharacterAdapter(private var characterList:List<CharacterModel>):
 RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
     class CharacterViewHolder(val itemCharacterBinding:ItemDesignBinding):RecyclerView.ViewHolder(itemCharacterBinding.root)
 
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType:Int
+    ) :CharacterViewHolder{
+        val layoutInflater=LayoutInflater.from(parent.context)
+        val itemDesignBinding=ItemDesignBinding.inflate(layoutInflater,parent,false)
+        return  CharacterViewHolder(itemDesignBinding)
+    }
 
 
 
