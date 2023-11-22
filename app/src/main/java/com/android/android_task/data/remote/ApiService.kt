@@ -1,4 +1,4 @@
-package com.android.android_task.data.local
+package com.android.android_task.data.remote
 
 import com.android.android_task.data.model.CharacterModel
 import com.android.android_task.data.model.usermodel.LoginResponse
