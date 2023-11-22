@@ -3,7 +3,6 @@ package com.android.android_task.data.model
 import com.google.gson.annotations.SerializedName
 
 data class CharacterModel (
-
     @SerializedName("BusinessUnitKey")
     val businessUnitKey: String?,
     @SerializedName("businessUnit")
