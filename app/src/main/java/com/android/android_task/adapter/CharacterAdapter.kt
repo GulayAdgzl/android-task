@@ -20,6 +20,19 @@ RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
         val itemDesignBinding=ItemDesignBinding.inflate(layoutInflater,parent,false)
         return  CharacterViewHolder(itemDesignBinding)
     }
+    override fun onBindViewHolder(holder:CharacterAdapter.CharacterViewHolder,position:Int){
+        val character=characterList[position]
+        holder.itemCharacterBinding.apply {
+            tvTask.text=character.task
+            tvDescription.text=character.description
+            tvTitle.text=character.title
+            tvColorcode.text=character.colorCode
+            if(!character.colorCode.isNullOrEmpty()){
+                root.setCardBackgroundColor(Color.parseColor(character.colorCode))
+            }
+
+        }
+    }
 
 
 
