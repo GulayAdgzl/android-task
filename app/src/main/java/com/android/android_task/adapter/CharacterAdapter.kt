@@ -33,6 +33,24 @@ RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
 
         }
     }
+    companion object DiffCallBack: DiffUtil.ItemCallback<CharacterModel>(){
+
+        override fun areItemsTheSame(oldItem: CharacterModel, newItem: CharacterModel): Boolean {
+            return oldItem==newItem
+        }
+
+        override fun areContentsTheSame(oldItem: CharacterModel, newItem: CharacterModel): Boolean {
+            return oldItem==newItem
+        }
+    }
+
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     *
+     * @return The total number of items in this adapter.
+     */
+    override fun getItemCount(): Int=characterList.size
+
 
 
 
