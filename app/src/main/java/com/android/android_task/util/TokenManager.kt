@@ -14,4 +14,7 @@ class TokenManager(context: Context)  {
         editor.putString("ACCESS_TOKEN", accessToken)
         editor.apply()
     }
+    fun getAccessToken(): String? {
+        return sharedPreferences.getString("ACCESS_TOKEN", null)
+    }
 }
