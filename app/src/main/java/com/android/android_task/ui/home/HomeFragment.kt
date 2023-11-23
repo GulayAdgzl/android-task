@@ -40,6 +40,10 @@ class HomeFragment : Fragment() {
 
         binding.RecyclerView.layoutManager=LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
         binding.RecyclerView.adapter=adapter
+
+        if (checkNetwork(requireContext())){
+            getDataApi()
+        }else getDataLocal()
     }
 
     private fun getDataApi() {
@@ -56,6 +60,10 @@ class HomeFragment : Fragment() {
             }
         }
         Toast.makeText(requireContext(), "Ağdan alınan veri", Toast.LENGTH_LONG).show()
+    }
+    private fun getDataLocal(){
+        adapter.differ.submitList(viewModel.getLocalTasks())
+        Toast.makeText(requireContext(),"data from local",Toast.LENGTH_LONG).show()
     }
 
     private fun checkNetwork(context: Context): Boolean {
