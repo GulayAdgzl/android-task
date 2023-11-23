@@ -9,4 +9,9 @@ class TokenManager(context: Context)  {
         context.getString(R.string.app_name),
         Context.MODE_PRIVATE
     )
+    fun saveAccessToken(accessToken: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString("ACCESS_TOKEN", accessToken)
+        editor.apply()
+    }
 }
