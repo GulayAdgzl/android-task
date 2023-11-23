@@ -17,8 +17,8 @@ class HomeViewModel(
     private val tokenManager: TokenManager,
     private val repository: Repository
 ) : ViewModel() {
-    private val _taskLiveData = MutableLiveData<Resource<List<CharacterModel>>>()
-    val taskLiveData: LiveData<Resource<List<CharacterModel>>> = _taskLiveData
+    private val _characterLiveData = MutableLiveData<Resource<List<CharacterModel>>>()
+    val characterLiveData: LiveData<Resource<List<CharacterModel>>> = _characterLiveData
 
     init {
         authorizeAndFetchTask()
@@ -46,7 +46,7 @@ class HomeViewModel(
                 useCase().collect { result ->
                     when (result.status) {
                         Resource.Status.SUCCESS -> {
-                            _taskLiveData.value = result
+                            _characterLiveData.value = result
                             result.data?.let { repository.saveData(it) }
                         }
                         Resource.Status.ERROR -> handleTaskFetchError(result.message)
