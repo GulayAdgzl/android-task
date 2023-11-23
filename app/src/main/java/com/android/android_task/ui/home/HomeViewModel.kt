@@ -9,8 +9,8 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
 ) : ViewModel() {
-    private val _statusLiveData = MutableLiveData<CharacterApiStatus<List<CharacterModel>>>()
-    val statusLiveData: LiveData<CharacterApiStatus<List<CharacterModel>>>
+    private val _statusLiveData = MutableLiveData<List<CharacterModel>>()
+    val statusLiveData: LiveData<List<CharacterModel>>
       get() = _statusLiveData
 
     init {
