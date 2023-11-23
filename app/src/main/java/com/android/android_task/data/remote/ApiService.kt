@@ -7,6 +7,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import javax.inject.Inject
 
 
 const val LOGIN_URL = "index.php/login"
@@ -15,24 +16,15 @@ const val GIVEN_AUTH_HEADER  = "Basic QVBJX0V4cGxvcmVyOjEyMzQ1NmlzQUxhbWVQYXNz"
 const val CREDENTIAL_USERNAME = "365"
 const val CREDENTIAL_PASSWORD= "1"
 
-class CustomRemoteDataSource private constructor(
+class CustomRemoteDataSource  @Inject constructor(
     private val apiService: ApiService
 ) {
-    class Builder(private val apiService: ApiService) {
-        fun build(): CustomRemoteDataSource {
-            return CustomRemoteDataSource(apiService)
-        }
-    }
-
-
     suspend fun authenticate(): LoginResponse {
         val body = UserLoginRequest(CREDENTIAL_USERNAME, CREDENTIAL_PASSWORD)
         return apiService.login(GIVEN_AUTH_HEADER, body)
     }
 
-    suspend fun fetchItems(authToken: String): List<CharacterModel> {
-        return apiService.getItems(authToken)
-    }
+    suspend fun fetchItems(authToken: String) =apiService.getItems(authToken)
 
 }
 

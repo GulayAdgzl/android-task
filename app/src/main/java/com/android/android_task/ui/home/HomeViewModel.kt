@@ -9,10 +9,13 @@ import com.android.android_task.data.Repository
 import com.android.android_task.data.model.CharacterModel
 import com.android.android_task.util.Resource
 import com.android.android_task.util.TokenManager
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel   @Inject constructor(
     private val useCase: UseCase,
     private val tokenManager: TokenManager,
     private val repository: Repository
@@ -83,6 +86,40 @@ class HomeViewModel(
             HomeViewModel::class.simpleName,
             errorMessage ?: "Unknown error occurred during task fetch"
         )
+    }
+    private fun fetchTask() {
+        viewModelScope.launch {
+            try {
+                useCase().collect { result ->
+                    when (result.status) {
+                        Resource.Status.SUCCESS -> {
+                            _characterLiveData.value = result
+                            result.data?.let { repository.saveData(it) }
+                        }
+                        Resource.Status.ERROR -> {
+                            Log.e(
+                                HomeViewModel::class.simpleName,
+                                result.message ?: "Unknown error occurred"
+                            )
+                        }
+                        Resource.Status.LOADING -> {
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                if (e is HttpException) {
+                    e.message?.let {
+                        Log.e(Repository::class.simpleName, it)
+                    }
+                } else {
+                    e.message?.let { Log.e(Repository::class.simpleName, it) }
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+    fun getLocal() : List<CharacterModel>{
+        return  repository.getData()
     }
 }
 

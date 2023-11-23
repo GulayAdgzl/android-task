@@ -8,12 +8,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 
 
 const val AUTH_BEARER = "Bearer "
 
-class UseCase (private val repository: Repository,
-               private val tokenManager: TokenManager
+class UseCase @Inject constructor (private val repository: Repository,
+                                   private val tokenManager: TokenManager
 ) {
     operator fun invoke(): Flow<Resource<List<CharacterModel>>> = flow {
         try {

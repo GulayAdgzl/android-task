@@ -4,8 +4,9 @@ import com.android.android_task.data.local.LocalDataSource
 import com.android.android_task.data.model.CharacterModel
 import com.android.android_task.data.model.usermodel.LoginResponse
 import com.android.android_task.data.remote.CustomRemoteDataSource
+import javax.inject.Inject
 
-class Repository(
+class Repository @Inject constructor(
     private val remote: CustomRemoteDataSource,
     private val localDataSource: LocalDataSource
 ) {

@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.android.android_task.data.model.CharacterModel
 
-@Database(entities = [CharacterModel::class], version = 1)
+@Database(entities = [CharacterModel::class], version = 1,exportSchema = false)
 abstract class CharacterDB : RoomDatabase() {
 
     abstract fun taskDao() : CharacterDAO

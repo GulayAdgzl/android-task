@@ -9,7 +9,7 @@ import com.android.android_task.data.model.CharacterModel
 @Dao
 interface CharacterDAO {
 
-    @Query("SELECT * FROM taskModel")
+    @Query("SELECT * FROM characterModel")
     fun getLocal():List<CharacterModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
