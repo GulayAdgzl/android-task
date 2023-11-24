@@ -1,3 +1,58 @@
+# Task Management App
+
+This repository contains the source code for a Task Management App developed in Kotlin for Android using the MVVM architecture. The app leverages modern Android development principles, such as Room Database for local storage, Retrofit for network requests, Dagger Hilt for dependency injection, and WorkManager for periodic data synchronization.
+
+## Architecture Overview
+
+### Model-View-ViewModel (MVVM)
+
+The app follows the MVVM architectural pattern, separating concerns between the UI (View), business logic (ViewModel), and data handling (Model). This helps maintain a clean and modular codebase.
+
+### Room Database
+
+The local storage is managed using Room Database, an SQLite object mapping library. The `CharacterModel` class represents the entity stored in the database, and the `CharacterDAO` interface defines the data access methods.
+
+### Retrofit and API Service
+
+Retrofit is used for handling network requests, and an `ApiService` interface defines the API endpoints. The `CustomRemoteDataSource` class utilizes Retrofit to authenticate users and fetch data from the remote server.
+
+### WorkManager for Periodic Sync
+
+WorkManager is employed to periodically synchronize data in the background. The `RefreshWorker` class, triggered by WorkManager, handles the authorization process and updates local data.
+
+### Dagger Hilt for Dependency Injection
+
+Dagger Hilt is utilized for dependency injection, providing a clean and modular way to manage dependencies. Modules such as `DatabaseModule` and `NetworkModule` are defined to provide instances of necessary components.
+
+## Usage
+
+### Features
+
+- **Task List:** Display tasks with details such as title, description, and color code.
+- **Search Functionality:** Search tasks based on various criteria like task name, description, and color code.
+- **QR Code Scanner:** Integrate QR code scanning functionality using the device's camera.
+
+### Getting Started
+
+1. Clone the repository.
+2. Open the project in Android Studio.
+3. Build and run the app on an Android device or emulator.
+
+### Dependencies
+
+- **Room Database:** For local data storage and retrieval.
+- **Retrofit:** For handling network requests.
+- **Dagger Hilt:** For dependency injection.
+- **WorkManager:** For background synchronization tasks.
+
+## Development Environment
+
+- **Language:** Kotlin
+- **Minimum Android SDK:** 21
+- **Android Studio Version:** 4.0 or higher
+
+***********************************************************************************************
+
 Hello dear Android dev prospect!
 
 This repository is supposed to act as a playground for your submission.
