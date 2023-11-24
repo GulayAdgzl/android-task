@@ -17,7 +17,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@drawable/bg_raw"
             app:layout_constraintBottom_toTopOf="@+id/tv_title"
             app:layout_constraintTop_toTopOf="@+id/tv_title">
 

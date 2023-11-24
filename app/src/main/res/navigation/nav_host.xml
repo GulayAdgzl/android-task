@@ -9,5 +9,14 @@
         android:id="@+id/homeFragment"
         tools:layout="@layout/fragment_home"
         android:name="com.android.android_task.ui.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_qrFragment"
+            app:destination="@id/qrFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/qrFragment"
+        tools:layout="@layout/fragment_qr"
+        android:name="com.android.android_task.ui.Qr.QrFragment"
+        android:label="QrFragment" />
 </navigation>

@@ -13,14 +13,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
+import com.android.android_task.R
 import com.android.android_task.adapter.CharacterAdapter
 import com.android.android_task.data.model.CharacterModel
 import com.android.android_task.databinding.FragmentHomeBinding
+import com.android.android_task.ui.Qr.QrFragment
 import com.android.android_task.worker.RefreshWorker
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,6 +37,14 @@ class HomeFragment : Fragment() {
     private val viewModel:HomeViewModel by viewModels()
     private val characterList= arrayListOf<CharacterModel>()
     val QR_REQUEST_CODE = 123
+
+    // Aktivite sonucunu işlemek için kullanılan ResultLauncher
+    private val qrResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val resultCode = result.resultCode
+            val data = result.data
+            handleActivityResult(resultCode, data)
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -104,19 +116,23 @@ class HomeFragment : Fragment() {
         })
 
         binding.qrButton.setOnClickListener {
-            val intent = Intent(requireContext(), QrActivity::class.java)
-            startActivityForResult(intent,QR_REQUEST_CODE)
+            val intent = Intent(requireContext(), QrFragment::class.java)
+
+            // startActivityForResult yerine qrResultLauncher'ı kullanıyoruz
+            qrResultLauncher.launch(intent)
         }
 
 
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == QR_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+
+    // Eski onActivityResult metodu yerine kullanılacak olan yeni metot
+    private fun handleActivityResult(resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK) {
             val resultString = data?.getStringExtra("result")
             filter(resultString)
         }
     }
+
 
 
 
