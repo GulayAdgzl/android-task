@@ -130,7 +130,7 @@ class HomeFragment : Fragment() {
 
    // Eski onActivityResult metodu yerine kullanılacak olan yeni metot
     private fun handleActivityResult(resultCode: Int, data: Intent?) {
-        if (resultCode == QR_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if ( resultCode == Activity.RESULT_OK) {
             val resultString = data?.getStringExtra("result")
             filter(resultString)
         }
