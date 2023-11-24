@@ -13,21 +13,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.android.android_task.R
 import com.android.android_task.databinding.FragmentQrBinding
-import com.budiyev.android.codescanner.AutoFocusMode
-import com.budiyev.android.codescanner.CodeScanner
-import com.budiyev.android.codescanner.DecodeCallback
-import com.budiyev.android.codescanner.ErrorCallback
-import com.budiyev.android.codescanner.ScanMode
+import com.android.android_task.ui.home.HomeFragment
+import com.budiyev.android.codescanner.*
 
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
 
 
-class QrFragment : Fragment() {
+/*class QrFragment : Fragment() {
     private val requestCodeCameraPermission = 200
     private lateinit var cameraSource: CameraSource
     private lateinit var barcodeDetector: BarcodeDetector
@@ -142,5 +140,68 @@ class QrFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         cameraSource.stop()
+    }
+}*/
+class QrFragment : Fragment() {
+
+    private lateinit var codeScanner: CodeScanner
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_qr, container, false)
+
+        val scannerView = view.findViewById<CodeScannerView>(R.id.scannerView)
+        codeScanner = CodeScanner(requireActivity(), scannerView)
+
+        codeScanner.decodeCallback = DecodeCallback {
+            requireActivity().runOnUiThread {
+                val intent = Intent(requireContext(), HomeFragment::class.java)
+                intent.putExtra("scanned_code", it.text)
+                startActivity(intent)
+            }
+        }
+
+        scannerView.setOnClickListener {
+            codeScanner.startPreview()
+        }
+
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            codeScanner.startPreview()
+            codeScanner.errorCallback = ErrorCallback {
+                Toast.makeText(
+                    requireContext(),
+                    "Kamera başlatma hatası: ${it.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        } else {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_PERMISSION_REQUEST_CODE
+            )
+        }
+
+        return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        codeScanner.startPreview()
+    }
+
+    override fun onPause() {
+        codeScanner.releaseResources()
+        super.onPause()
+    }
+
+    companion object {
+        private const val CAMERA_PERMISSION_REQUEST_CODE = 100
     }
 }

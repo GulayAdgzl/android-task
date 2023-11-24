@@ -105,13 +105,11 @@ class HomeFragment : Fragment() {
                 return false
             }
         })
-        binding.SearchView.setOnSearchClickListener {
-            binding.textView.visibility = View.GONE
-        }
+
 
         binding.SearchView.setOnCloseListener(object : SearchView.OnCloseListener {
             override fun onClose(): Boolean {
-                binding.textView.visibility = View.VISIBLE
+              //  binding.textView.visibility = View.VISIBLE
                 characterList.clear()
                 if (checkNetwork(requireContext())){
                     getDataApi()
@@ -121,8 +119,7 @@ class HomeFragment : Fragment() {
         })
 
         binding.qrButton.setOnClickListener {
-            val intent = Intent(requireContext(), QrFragment::class.java)
-            qrResultLauncher.launch(intent)
+           findNavController().navigate(R.id.action_homeFragment_to_qrFragment)
         }
 
 
