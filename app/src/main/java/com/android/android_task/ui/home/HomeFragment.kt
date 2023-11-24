@@ -1,6 +1,8 @@
 package com.android.android_task.ui.home
 
+
 import android.app.Activity
+import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import java.util.concurrent.TimeUnit
@@ -8,12 +10,11 @@ import android.widget.SearchView
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,13 +39,14 @@ class HomeFragment : Fragment() {
     private val characterList= arrayListOf<CharacterModel>()
     val QR_REQUEST_CODE = 123
 
+
+
     // Aktivite sonucunu işlemek için kullanılan ResultLauncher
-    private val qrResultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            val resultCode = result.resultCode
-            val data = result.data
-            handleActivityResult(resultCode, data)
-        }
+    private val qrResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val resultCode = result.resultCode
+        val data = result.data
+        handleActivityResult(resultCode, data)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +55,7 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,10 +85,12 @@ class HomeFragment : Fragment() {
 
         binding.swipeRefresh.setOnRefreshListener {
             if (checkNetwork(requireContext())){
+                binding.swipeRefresh.isRefreshing = false
                 getDataApi()
             }else getDataLocal()
-
             binding.swipeRefresh.isRefreshing = false
+
+
         }
 
 
@@ -117,21 +122,21 @@ class HomeFragment : Fragment() {
 
         binding.qrButton.setOnClickListener {
             val intent = Intent(requireContext(), QrFragment::class.java)
-
-            // startActivityForResult yerine qrResultLauncher'ı kullanıyoruz
             qrResultLauncher.launch(intent)
         }
 
 
     }
 
-    // Eski onActivityResult metodu yerine kullanılacak olan yeni metot
+   // Eski onActivityResult metodu yerine kullanılacak olan yeni metot
     private fun handleActivityResult(resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == QR_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val resultString = data?.getStringExtra("result")
             filter(resultString)
         }
     }
+
+
 
 
 
@@ -147,6 +152,7 @@ class HomeFragment : Fragment() {
     }
     private fun getDataLocal(){
         adapter.differ.submitList(viewModel.getLocalTasks())
+
         Toast.makeText(requireContext(),"data from local",Toast.LENGTH_LONG).show()
     }
 

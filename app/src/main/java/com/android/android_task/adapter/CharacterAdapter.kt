@@ -4,12 +4,16 @@ import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.android.android_task.R
 import com.android.android_task.data.model.CharacterModel
 import com.android.android_task.databinding.ItemDesignBinding
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CharacterAdapter(private val context: Context):
 RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
@@ -54,3 +58,6 @@ RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
 
 
 }
+
+
+
